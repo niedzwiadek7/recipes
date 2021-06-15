@@ -7,6 +7,7 @@ const path = require('path')
 const passport = require('./config/passport')
 const posts = require('./router/api/posts')
 const users = require('./router/api/users')
+const ingredients = require('./router/api/ingredients')
 const err = require('./middlewares/errors')
 
 const app = express()
@@ -22,6 +23,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')))
 //Middleware router-level and handling errors
 app.use('/api/posts', posts)
 app.use('/api/users', users)
+app.use('/api/ingredients', ingredients)
 
 app.use(err.notFound)
 app.use(err.catchError)

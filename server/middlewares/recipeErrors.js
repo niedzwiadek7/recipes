@@ -20,7 +20,8 @@ const tagsOperation = value => {
 }
 
 exports.handleRecipeError = (req, res, next) => {
-    const body = JSON.parse(req.body.body);
+    // const body = JSON.parse(req.body.body);
+    const body = req.body
 
     const rec = new Recipe({
         name: body.name,
