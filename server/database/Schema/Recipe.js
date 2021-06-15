@@ -71,8 +71,12 @@ const recipeSchema = new mongoose.Schema({
         ]
     },
     rating: {
-        type: ratingSchema,
-        default: {}
+        type: [
+            {
+                type: ratingSchema,
+            }
+        ],
+        default: []
     },
     updated: {
         type: Boolean,

@@ -2,17 +2,14 @@ require('../../../database/mongodb')
 const mongoose = require('mongoose')
 const Recipe = require('../../../database/Schema/Recipe')
 
-exports.add = async(req, res) => {
+exports.add = async(rating, req, res, next) => {
     try {
-        await Recipe.updateOne({
-            _id: new mongoose.Types.ObjectId(req.params.id)
-        }, {
-            $inc: {
-                "rating.sum": req.body.rating,
-                "rating.quantity": 1
+        await Recipe.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
+            $push: {
+                rating
             }
         })
-        res.redirect(`/api/posts/${req.params.id}`)
+        res.status(200).json({info: "Adding is successful", rating });
     }   catch (err) {
         res.sendStatus(400)
     }
@@ -20,31 +17,36 @@ exports.add = async(req, res) => {
 
 exports.delete = async(req, res) => {
     try {
-        await Recipe.updateOne({
-            _id: new mongoose.Types.ObjectId(req.params.id)
-        }, {
-            $inc: {
-                "rating.sum": -req.body.rating,
-                "rating.quantity": -1
+        const deletingElement = await Recipe.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
+            $pull: {
+                rating: { author: new mongoose.Types.ObjectId(req.body.author) }
             }
         })
-        res.redirect(`/api/posts/${req.params.id}`)
-    }   catch (err) {
+        console.log(deletingElement)
+        if (deletingElement.nModified === 0) throw new Error()
+        res.status(200).json({info: "Delete is successful"});
+    }
+    catch(err) {
         res.sendStatus(400)
     }
 }
 
-exports.update = async(req, res) => {
+exports.update = async(rating, req, res, next) => {
     try {
-        await Recipe.updateOne({
-            _id: new mongoose.Types.ObjectId(req.params.id)
+        await Recipe.updateOne ({
+            _id: new mongoose.Types.ObjectId(req.params.id),
+            rating: {
+                $elemMatch: {
+                    author: new mongoose.Types.ObjectId(req.body.author)
+                }
+            }
         }, {
-            $inc: {
-                "rating.sum": req.body.rating-req.body.old_rating
+            $set: {
+                "rating.$.value": req.body.rating,
             }
         })
-        res.redirect(`/api/posts/${req.params.id}`)
-    }   catch (err) {
+        res.status(200).json({info: "Update is successful", rating});
+    } catch(err) {
         res.sendStatus(400)
     }
 }

@@ -28,7 +28,7 @@ router.put('/comment/delete/:id/:id_comment', Comments.delete)
 router.put('/comment/update/:id/:id_comment', recipeError.handleCommentError, Comments.update)
 
 router.put('/rating/add/:id', recipeError.handleRatingError, Ratings.add)
-router.put('/rating/delete/:id', recipeError.handleRatingError, Ratings.delete)
+router.put('/rating/delete/:id', errorHandler.catchAsync(Ratings.delete))
 router.put('/rating/update/:id', recipeError.handleRatingError, Ratings.update)
 
 module.exports = router

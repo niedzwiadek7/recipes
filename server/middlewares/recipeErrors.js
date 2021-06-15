@@ -97,9 +97,24 @@ exports.handleCommentError = (req, res, next) => {
 }
 
 exports.handleRatingError = (req, res, next) => {
-    const ratings = [body.rating]
-    if (body?.old_rating) ratings.push(body.old_rating)
+    console.log('im here')
 
-    if (ratings.every(el => ((typeof(el) === "number") && (el>=1) && (el<=5)))) next()
-    else res.status(400).json({error: "Typing must be numbers between 1 and 5"})
+    const RecipeSchema = new Recipe({
+        rating: [{
+            value: req.body.rating,
+            author: req.body.author,
+        }]
+    })
+    const errors = {}
+    const validationResult = RecipeSchema.validateSync()
+
+    try {
+        if (validationResult.errors?.['rating.0.value']) {
+            errors.text = validationResult.errors['rating.0.value'].message
+            throw new Error()
+        }
+        next(RecipeSchema.rating[0])
+    } catch (err) {
+        res.status(400).json(errors)
+    }
 }

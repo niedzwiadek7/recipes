@@ -1,12 +1,14 @@
 const mongoose = require('mongoose')
 
 module.exports = new mongoose.Schema({
-    sum: {
+    value: {
         type: Number,
-        default: 0
+        required: true,
+        min: 1,
+        max: 5
     },
-    quantity: {
-        type: Number,
-        default: 0
+    author: {
+        type: mongoose.ObjectId,
+        required: true
     }
 })

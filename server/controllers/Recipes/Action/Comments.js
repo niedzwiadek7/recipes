@@ -42,7 +42,6 @@ exports.update = async(comment, req, res, next) => {
         }, {
             $set: {
                 "comments.$.text": req.body.comment.text,
-                "comments.$.date": new Date(),
                 "comments.$.updated": true
             }
         })
