@@ -10,6 +10,10 @@ module.exports = new mongoose.Schema({
     updated: {
         type: Boolean,
         default: false,
+    },
+    author: {
+        type: mongoose.ObjectId,
+        required: true
     }
 }, {
     timestamps: true,

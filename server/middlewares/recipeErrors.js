@@ -77,7 +77,8 @@ exports.handleRecipeError = (req, res, next) => {
 exports.handleCommentError = (req, res, next) => {
     const RecipeSchema = new Recipe({
         comments: [{
-            text: body.comment.text,
+            text: req.body.comment.text,
+            author: req.body.author
         }]
     })
 
