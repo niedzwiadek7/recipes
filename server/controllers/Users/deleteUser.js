@@ -6,7 +6,6 @@ const Recipe = require('../../database/Schema/Recipe')
 exports.delete = async(req, res) => {
     try {
         const user = await User.findOne({_id: new mongoose.Types.ObjectId(req.params.id)})
-        console.log(user)
         await user.recipes.forEach(async recipe => {
             await Recipe.deleteOne({_id: recipe})
         })

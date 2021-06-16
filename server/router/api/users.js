@@ -4,6 +4,7 @@ const upload = require('../../middlewares/uploadImage')
 
 const errorHandler = require('../../middlewares/errors')
 const userErrors = require('../../middlewares/handleUserErrors')
+const findDate = require('../../middlewares/findDate')
 
 const getUser = require('../../controllers/Users/getUser')
 router.get('/:id', errorHandler.catchAsync(getUser.find))
@@ -20,5 +21,12 @@ router.put('/update/:id', userErrors.handleUserErrors, updateUser.update)
 const authorizeUser = require('../../middlewares/authorizeUser')
 const loginUser = require('../../controllers/Users/loginUser')
 router.post('/login', errorHandler.catchAsync(authorizeUser.login), loginUser.login)
+
+const saveChanges = require('../../controllers/Users/Menu/saveChanges')
+const addRecipe = require('../../controllers/Users/Menu/addRecipe')
+router.put('/menu/add/:id', findDate.find, addRecipe.add, errorHandler.catchAsync(saveChanges.save))
+
+const deleteRecipe = require('../../controllers/Users/Menu/deleteRecipe')
+router.put('/menu/delete/:id', findDate.find, deleteRecipe.delete, errorHandler.catchAsync(saveChanges.save))
 
 module.exports = router

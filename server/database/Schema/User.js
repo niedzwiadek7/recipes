@@ -1,6 +1,7 @@
 require('../mongodb')
 const mongoose = require('mongoose')
 const emailValidator = require('email-validator')
+const Date = require('./User/Date')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -33,7 +34,13 @@ const userSchema = new mongoose.Schema({
     },
     recipes: {
         type: [ mongoose.ObjectId ],
-        required: true
+        required: true,
+        default: [],
+    },
+    menu: {
+        type: [ Date ],
+        required: true,
+        default: [],
     },
     description: {
         type: String,

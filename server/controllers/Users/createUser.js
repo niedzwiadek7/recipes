@@ -2,7 +2,6 @@ require('../../database/mongodb')
 
 exports.add = async (user, req, res, next) => {
     try {
-        user.dateCreated = new Date()
         await user.save()
         res.status(201).json(user)
     }   catch (err) {
