@@ -11,6 +11,10 @@ const ingredientSchema = new mongoose.Schema({
     description: {
         type: String,
         default: ''
+    },
+    accepting: {
+        type: Boolean,
+        default: false
     }
 })
 

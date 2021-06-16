@@ -16,7 +16,7 @@ module.exports = new mongoose.Schema({
         type: String,
         required: [true, "Type unit of measure to this ingredient"],
         enum: {
-            values: ["teaspoons", "gram", "quantity", "packet"],
+            values: ["teaspoon", "gram", "quantity", "packet", "glass"],
             message: "Select one of the options"
         }
     }
