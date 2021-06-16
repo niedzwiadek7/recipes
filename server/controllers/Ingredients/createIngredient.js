@@ -3,12 +3,8 @@ const Ingredient = require('../../database/Schema/Ingredient')
 
 exports.add = async (req, res) => {
     try {
-        const ingredient = new Ingredient({
-            name: req.body.name,
-            description: req.body.description
-        })
-        await ingredient.save()
-        res.status(201).json(ingredient)
+        await req.body.ingredient.save()
+        res.status(201).json(req.body.ingredient)
     }   catch (err) {
         if (err.code === 11000) {
             res.status(400).json({name: 'this ingredient is already exist'})
