@@ -1,18 +1,16 @@
-require('../../database/mongodb')
 const mongoose = require('mongoose')
-const Ingredient = require('../../database/Schema/Ingredient')
+const Recipe = require('../../database/Schema/Recipe')
 
 exports.find = async (req, res) => {
     try {
-        const ingredients = await Ingredient.find({
+        const recipe = await Recipe.find({
             name: {
                 "$regex": req.body.word,
                 "$options": "i"
-            },
-            accepting: true
+            }
         }).limit(req.body.limit)
 
-        res.status(200).send(ingredients)
+        res.status(200).send(recipe)
     }   catch (err) {
         if (process.env.NODE_ENV === 'development') console.log(err)
     }
