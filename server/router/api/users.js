@@ -23,6 +23,9 @@ const authorizeUser = require('../../middlewares/authorizeUser')
 const loginUser = require('../../controllers/Users/loginUser')
 router.post('/login', errorHandler.catchAsync(authorizeUser.login), loginUser.login)
 
+const recipesByUser = require('../../controllers/Users/recipesByUser')
+router.get('/recipes/:id', recipesByUser.find)
+
 const saveChanges = require('../../controllers/Users/Menu/saveChanges')
 const addRecipe = require('../../controllers/Users/Menu/addRecipe')
 router.put('/menu/add/:id', jwtAuth.auth, findDate.find, addRecipe.add, errorHandler.catchAsync(saveChanges.save))
@@ -44,6 +47,7 @@ const removeUserFromWatched = require('../../controllers/Users/Watched/removeUse
 router.put('/watched/remove/:id', handleWatched.handle,
     removeUserFromWatched.remove, saveChangesInWatched.save)
 
-
+const recipesByCategory = require('../../controllers/Users/Watched/recipesByCategory')
+router.post('/watched/get/:id', recipesByCategory.find)
 
 module.exports = router
