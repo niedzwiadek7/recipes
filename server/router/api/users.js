@@ -33,6 +33,17 @@ router.put('/menu/delete/:id', jwtAuth.auth, findDate.find, deleteRecipe.delete,
 const getRecipes = require('../../controllers/Users/Menu/getRecipes')
 router.get('/menu/:id', findDate.find, errorHandler.catchAsync(getRecipes.get))
 
+const handleWatched = require('../../middlewares/handleWatched')
+const saveChangesInWatched = require('../../controllers/Users/Watched/saveChanges')
+
+const addUserToWatched = require('../../controllers/Users/Watched/addUser')
+router.put('/watched/add/:id', handleWatched.handle,
+    addUserToWatched.add, errorHandler.catchAsync(saveChangesInWatched.save))
+
+const removeUserFromWatched = require('../../controllers/Users/Watched/removeUser')
+router.put('/watched/remove/:id', handleWatched.handle,
+    removeUserFromWatched.remove, saveChangesInWatched.save)
+
 
 
 module.exports = router

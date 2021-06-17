@@ -49,6 +49,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "Please, type password"],
+    },
+    watched: {
+        type: [ mongoose.ObjectId ],
+        default: []
     }
 }, {
     timestamps: true,
