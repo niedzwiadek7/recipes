@@ -1,17 +1,16 @@
-require('../../database/mongodb')
 const mongoose = require('mongoose')
 const Recipe = require('../../database/Schema/Recipe')
 
-exports.update = async (recipe, req, res, next) => {
+exports.update = async (req, res) => {
     // to refactor (i want send only changes values)
     try {
         await Recipe.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
             $set: {
-                name: recipe.name,
-                ingredients: recipe.ingredients,
-                procedure: recipe.procedure,
-                category: recipe.category,
-                tags: recipe.tags,
+                name: req.body.recipe.name,
+                ingredients: req.body.recipe.ingredients,
+                procedure: req.body.recipe.procedure,
+                category: req.body.recipe.category,
+                tags: req.body.recipe.tags,
                 updated: true,
                 kcal: req.body.kcal,
                 description: req.body.description,
@@ -19,10 +18,12 @@ exports.update = async (recipe, req, res, next) => {
                 time: req.body.time,
             }
         })
-        res.status(201).json({ ...recipe, _id: req.params.id}._doc)
+        req.body.recipe._id = req.params.id
+        req.body.recipe.updated = true
+        res.status(201).json(req.body.recipe)
     }   catch (err) {
         if (err.code === 11000) {
-            res.status(400).json({name: 'this recipe is already exist'})
-        }   else console.log('Unhandled exception')
+            res.status(400).json({name: 'this req.body.recipe is already exist'})
+        }   else if(process.env.NODE_ENV === 'development') console.log(err)
     }
 }

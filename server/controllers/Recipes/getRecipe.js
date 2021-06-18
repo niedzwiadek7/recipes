@@ -1,4 +1,3 @@
-require('../../database/mongodb')
 const mongoose = require('mongoose')
 const Recipe = require('../../database/Schema/Recipe')
 
