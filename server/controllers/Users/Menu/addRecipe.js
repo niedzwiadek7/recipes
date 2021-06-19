@@ -1,6 +1,4 @@
-require('../../../database/mongodb')
 const mongoose = require('mongoose')
-const User = require('../../../database/Schema/User')
 const Recipe = require('../../../database/Schema/Recipe')
 
 exports.add = async (req, res, next) => {

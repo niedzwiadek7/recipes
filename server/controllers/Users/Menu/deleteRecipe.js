@@ -1,7 +1,4 @@
-const mongoose = require('mongoose')
-const User = require('../../../database/Schema/User')
-
-exports.delete = async (req, res, next) => {
+exports.delete = (req, res, next) => {
     const error = {}
     try {
         if (req.body.position === -1) {
