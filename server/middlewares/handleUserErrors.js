@@ -3,8 +3,8 @@ const User = require('../database/Schema/User')
 const bcrypt = require('bcrypt')
 
 exports.handleUserErrors = async (req, res, next) => {
-    // const body = JSON.parse(req.body.body)
-    const body = req.body
+    const body = JSON.parse(req.body.body)
+    // const body = req.body
     const errors = {}
     let correctData = true
 
