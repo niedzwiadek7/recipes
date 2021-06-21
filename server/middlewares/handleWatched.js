@@ -16,7 +16,7 @@ exports.handle = async(req, res, next) => {
         req.body.watched = user.watched
 
         req.body.position = req.body.watched.findIndex(user => {
-            return user == req.body.toWatched
+            return user.toString() === req.body.toWatched.toString()
         })
 
         next()

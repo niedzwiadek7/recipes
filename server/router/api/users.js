@@ -51,4 +51,9 @@ router.put('/watched/remove/', jwtAuth.auth, handleWatched.handle,
 const recipesByCategory = require('../../controllers/Users/Watched/recipesByCategory')
 router.post('/watched/get/', jwtAuth.auth, recipesByCategory.find)
 
+const shoppingList = require('../../controllers/Users/shoppingList')
+router.put('/shopping/add', jwtAuth.auth, shoppingList.add)
+router.put('/shopping/delete', jwtAuth.auth, shoppingList.delete)
+router.get('/shopping/get', jwtAuth.auth, shoppingList.find)
+
 module.exports = router
