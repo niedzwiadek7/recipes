@@ -31,7 +31,7 @@ exports.RegexValidator = (path) => {
     return {
         validator: value => {
             value = value.replace(/_/g, ' ')
-            return /^[a-zA-Z0-9 ]*$/.test(value);
+            return /^[a-zA-Z0-9 żółćęśąźńŻÓŁĆĘŚĄŹŃ%-]*$/.test(value);
         },
         message: `Your ${path} have to include only letters and number`
     }

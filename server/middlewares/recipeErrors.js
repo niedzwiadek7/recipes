@@ -36,7 +36,8 @@ exports.handleRecipeError = (req, res, next) => {
         description: body.description,
         difficulty: body.difficulty,
         time: body.time,
-        author: mongoose.Types.ObjectId(body.author),
+        author: req.user._id,
+        serving: req.body.serving
     })
 
     // console.log(rec);
@@ -97,25 +98,30 @@ exports.handleCommentError = (req, res, next) => {
     }
 }
 
-exports.handleRatingError = (req, res, next) => {
-    console.log('im here')
+exports.handleRatingError = async (req, res, next) => {
+    const rates = (await Recipe.find({_id: new mongoose.Types.ObjectId(req.params.id)}))[0]?.rating
+    if (rates === undefined) {
+        res.sendStatus(400)
+    } else {
+        req.body.position = !rates.every(rate => rate.author.toString() !== req.user._id.toString())
 
-    const RecipeSchema = new Recipe({
-        rating: [{
-            value: req.body.rating,
-            author: req.body.author,
-        }]
-    })
-    const errors = {}
-    const validationResult = RecipeSchema.validateSync()
+        const RecipeSchema = new Recipe({
+            rating: [{
+                value: req.body.rating,
+                author: req.body.author,
+            }]
+        })
+        const errors = {}
+        const validationResult = RecipeSchema.validateSync()
 
-    try {
-        if (validationResult.errors?.['rating.0.value']) {
-            errors.text = validationResult.errors['rating.0.value'].message
-            throw new Error()
+        try {
+            if (validationResult.errors?.['rating.0.value']) {
+                errors.text = validationResult.errors['rating.0.value'].message
+                throw new Error()
+            }
+            next(RecipeSchema.rating[0])
+        } catch (err) {
+            res.status(400).json(errors)
         }
-        next(RecipeSchema.rating[0])
-    } catch (err) {
-        res.status(400).json(errors)
     }
 }

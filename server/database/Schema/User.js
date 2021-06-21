@@ -2,6 +2,7 @@ require('../mongodb')
 const mongoose = require('mongoose')
 const emailValidator = require('email-validator')
 const Date = require('./User/Date')
+const ingredientSchema = require('./Recipe/Ingredient')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -53,7 +54,11 @@ const userSchema = new mongoose.Schema({
     watched: {
         type: [ mongoose.ObjectId ],
         default: []
-    }
+    },
+    shoppingList: {
+        type: [ingredientSchema],
+        default: []
+    },
 }, {
     timestamps: true,
 })

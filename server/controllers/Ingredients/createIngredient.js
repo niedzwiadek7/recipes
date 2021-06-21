@@ -1,4 +1,3 @@
-require('../../database/mongodb')
 const Ingredient = require('../../database/Schema/Ingredient')
 
 exports.add = async (req, res) => {

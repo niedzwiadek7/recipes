@@ -13,4 +13,7 @@ const updateIngredient = require('../../controllers/Ingredients/updateIngredient
 router.put('/update/:id', jwtAuth.auth, upload.any('photo'), handleIngredientErrors.handle, updateIngredient.update)
 router.put('/accept/:id', jwtAuth.auth, updateIngredient.accept)
 
+const getIngredient = require('../../controllers/Ingredients/getIngredient')
+router.post('/get', getIngredient.find)
+
 module.exports = router

@@ -1,6 +1,7 @@
 require('../../database/mongodb')
 const mongoose = require('mongoose')
 const Recipe = require('../../database/Schema/Recipe')
+const Ingredient = require('../../database/Schema/Ingredient')
 
 exports.update = async (recipe, req, res, next) => {
     // to refactor (i want send only changes values)
@@ -13,16 +14,31 @@ exports.update = async (recipe, req, res, next) => {
                 category: recipe.category,
                 tags: recipe.tags,
                 updated: true,
-                kcal: req.body.kcal,
-                description: req.body.description,
-                difficulty: req.body.difficulty,
-                time: req.body.time,
+                kcal: req.body.recipe.kcal,
+                description: req.body.recipe.description,
+                difficulty: req.body.recipe.difficulty,
+                time: req.body.recipe.time,
+                serving: req.body.recipe.serving
             }
         })
-        res.status(201).json({ ...recipe, _id: req.params.id}._doc)
+
+        for (const ingredient in req.body.recipe.ingredients) {
+            try {
+                const ingredientSchema = new Ingredient({
+                    name: req.body.recipe.ingredients[ingredient].name
+                })
+                await ingredientSchema.save()
+            } catch (err) {
+                if (process.env.NODE_ENV === 'development') console.log(err)
+            }
+        }
+
+        req.body.recipe._id = req.params.id
+        req.body.recipe.updated = true
+        res.status(201).json(req.body.recipe)
     }   catch (err) {
         if (err.code === 11000) {
             res.status(400).json({name: 'this recipe is already exist'})
-        }   else console.log('Unhandled exception')
+        }   else if(process.env.NODE_ENV === 'development') console.log(err)
     }
 }

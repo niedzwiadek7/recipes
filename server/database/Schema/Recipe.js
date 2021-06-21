@@ -102,6 +102,14 @@ const recipeSchema = new mongoose.Schema({
     time: {
         type: Number,
         required: [true, "Please, write time your recipe"]
+    },
+    views: {
+        type: Number,
+        default: 0
+    },
+    serving: {
+        type: Number,
+        required: [true, "Please write quantity of servings to your recipe"]
     }
 }, {
     timestamps: true,
