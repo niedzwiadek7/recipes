@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const User = require('../database/Schema/User')
 const bcrypt = require('bcrypt')
 
@@ -43,10 +44,14 @@ exports.handleUserErrors = async (req, res, next) => {
             correctData = false
         }
         if (!correctData) throw new Error()
-        next(user)
-
+        req.body.user = user
+        next()
     }   catch (err) {
         res.status(400).json(errors)
     }
+}
 
+exports.handleUserId = (req, res, next) => {
+    req.body._id = new mongoose.Types.ObjectId(req.params.id)
+    next()
 }

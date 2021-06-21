@@ -3,7 +3,6 @@ const router = express.Router()
 const upload = require('../../middlewares/uploadImage')
 const jwtAuth = require('../../middlewares/jwtauth')
 
-const errorHandler = require('../../middlewares/errors')
 const handleIngredientErrors = require('../../middlewares/handleIngredientErrors')
 
 const createIngredient = require('../../controllers/Ingredients/createIngredient')

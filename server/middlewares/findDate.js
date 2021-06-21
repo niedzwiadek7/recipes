@@ -5,7 +5,7 @@ exports.find = async (req, res, next) => {
     const error = {}
     try {
         const user = (await User.find({
-            _id: new mongoose.Types.ObjectId(req.params.id)
+            _id: new mongoose.Types.ObjectId(req.user._id)
         }))[0]
 
         if (user === undefined) {

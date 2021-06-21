@@ -1,18 +1,17 @@
-require('../../database/mongodb')
 const mongoose = require('mongoose')
 const Recipe = require('../../database/Schema/Recipe')
 const Ingredient = require('../../database/Schema/Ingredient')
 
-exports.update = async (recipe, req, res, next) => {
+exports.update = async (req, res) => {
     // to refactor (i want send only changes values)
     try {
         await Recipe.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
             $set: {
-                name: recipe.name,
-                ingredients: recipe.ingredients,
-                procedure: recipe.procedure,
-                category: recipe.category,
-                tags: recipe.tags,
+                name: req.body.recipe.name,
+                ingredients: req.body.recipe.ingredients,
+                procedure: req.body.recipe.procedure,
+                category: req.body.recipe.category,
+                tags: req.body.recipe.tags,
                 updated: true,
                 kcal: req.body.recipe.kcal,
                 description: req.body.recipe.description,
@@ -32,7 +31,6 @@ exports.update = async (recipe, req, res, next) => {
                 if (process.env.NODE_ENV === 'development') console.log(err)
             }
         }
-
         req.body.recipe._id = req.params.id
         req.body.recipe.updated = true
         res.status(201).json(req.body.recipe)

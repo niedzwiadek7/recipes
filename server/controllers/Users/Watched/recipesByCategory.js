@@ -35,6 +35,7 @@ exports.find = async (req, res) => {
                     const result = (await Recipe.find({
                         _id: new mongoose.Types.ObjectId(recipe)
                     }))[0]
+
                     if (result === undefined) {
                         updateInWatched = true
                         watched.recipes.splice(pos, 1)

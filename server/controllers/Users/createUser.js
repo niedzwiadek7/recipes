@@ -1,9 +1,9 @@
 require('../../database/mongodb')
 
-exports.add = async (user, req, res, next) => {
+exports.add = async (req, res) => {
     try {
-        await user.save()
-        res.status(201).json(user)
+        await req.body.user.save()
+        res.status(201).json(req.body.user)
     }   catch (err) {
         if (err.code === 11000) {
             res.status(400).json({email: 'This user is already exist'})
