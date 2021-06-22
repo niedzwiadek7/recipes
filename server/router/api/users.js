@@ -46,7 +46,7 @@ router.put('/watched/add/', jwtAuth.auth, handleWatched.handle,
 
 const removeUserFromWatched = require('../../controllers/Users/Watched/removeUser')
 router.put('/watched/remove/', jwtAuth.auth, handleWatched.handle,
-    removeUserFromWatched.remove, saveChangesInWatched.save)
+    removeUserFromWatched.remove, errorHandler.catchAsync(saveChangesInWatched.save))
 
 const recipesByCategory = require('../../controllers/Users/Watched/recipesByCategory')
 router.post('/watched/get/', jwtAuth.auth, recipesByCategory.find)

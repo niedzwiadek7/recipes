@@ -59,6 +59,10 @@ const userSchema = new mongoose.Schema({
         type: [ingredientSchema],
         default: []
     },
+    subscription: {
+        type: Number,
+        default: 0,
+    }
 }, {
     timestamps: true,
 })

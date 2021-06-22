@@ -1,4 +1,3 @@
-require('../../../database/mongodb')
 const mongoose = require('mongoose')
 const User = require('../../../database/Schema/User')
 
@@ -12,12 +11,18 @@ exports.add = async (req, res, next) => {
 
         const user_watched = (await User.find({
             _id: new mongoose.Types.ObjectId(req.body.toWatched)
-        }))
+        }))[0]
 
-        if (user_watched === undefined) {
-            errors.watched = 'Problem with account, which you want to watched'
+        if (user_watched === undefined || user_watched._id.toString() === req.user._id.toString()) {
+            errors.watched = 'You cannot subscribe this user'
             throw new Error()
         }
+
+        await User.updateOne({ _id: new mongoose.Types.ObjectId(req.body.toWatched) }, {
+            $inc: {
+                subscription: 1,
+            }
+        })
 
         req.body.watched.push(req.body.toWatched)
         next()
