@@ -8,6 +8,7 @@ exports.update = async (req, res) => {
         await Recipe.updateOne({_id: new mongoose.Types.ObjectId(req.params.id)}, {
             $set: {
                 name: req.body.recipe.name,
+                photo: req.body.recipe.photo,
                 ingredients: req.body.recipe.ingredients,
                 procedure: req.body.recipe.procedure,
                 category: req.body.recipe.category,

@@ -12,7 +12,8 @@ exports.update = async (req, res) => {
                 date: req.body.user.date,
                 updated: true,
                 email: req.body.user.email,
-                description: req.body.user.description
+                description: req.body.user.description,
+                photo: req.body.user.photo
             }
         })
         req.body.user.updated = true
