@@ -35,7 +35,7 @@ const deleteRecipe = require('../../controllers/Users/Menu/deleteRecipe')
 router.put('/menu/remove', jwtAuth.auth, findDate.find, deleteRecipe.delete, errorHandler.catchAsync(saveChanges.save))
 
 const getRecipes = require('../../controllers/Users/Menu/getRecipes')
-router.get('/menu/get', jwtAuth.auth, findDate.find, errorHandler.catchAsync(getRecipes.get))
+router.post('/menu/get', jwtAuth.auth, findDate.find, errorHandler.catchAsync(getRecipes.get))
 
 const handleWatched = require('../../middlewares/handleWatched')
 const saveChangesInWatched = require('../../controllers/Users/Watched/saveChanges')

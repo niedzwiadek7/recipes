@@ -11,7 +11,7 @@ exports.find = async(req, res) => {
     let value = 0
 
     recipes.forEach(recipe => {
-        if (main._id !== recipe._id) {
+        if (main._id.toString() !== recipe._id.toString()) {
             array.push({
                 id: recipe,
                 value: recipe.views
