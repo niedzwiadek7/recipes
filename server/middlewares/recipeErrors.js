@@ -23,6 +23,8 @@ exports.handleRecipeError = (req, res, next) => {
     const body = JSON.parse(req.body.body);
     // const body = req.body
 
+    console.log(body);
+
     const rec = new Recipe({
         name: body.name,
         ingredients: body.ingredients,
@@ -37,8 +39,10 @@ exports.handleRecipeError = (req, res, next) => {
         difficulty: body.difficulty,
         time: body.time,
         author: req.user._id,
-        serving: req.body.serving
+        serving: body.serving
     })
+
+    console.log(rec)
 
     const err = rec.validateSync()
     const errors = {}
