@@ -6,7 +6,7 @@ exports.find = async (req, res) => {
     const errors = {}
     try {
         const user = (await User.find({
-            _id: new mongoose.Types.ObjectId(req.params.id)
+            _id: new mongoose.Types.ObjectId(req.user._id)
         }))[0]
 
         if (user === undefined) {
@@ -57,7 +57,7 @@ exports.find = async (req, res) => {
 
         if (updated) {
             await User.updateOne({
-                _id: new mongoose.Types.ObjectId(req.params.id)
+                _id: new mongoose.Types.ObjectId(req.user._id)
             }, {
                 $set: {
                     watched: user.watched
